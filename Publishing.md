@@ -8,3 +8,6 @@ cd Dskow.Weather\bin\Release
 nuget push Dskow.Weather.1.0.0.nupkg oy2mXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -Source https://api.nuget.org/v3/index.json
 https://www.nuget.org/users/account/LogOn?returnUrl=%2F
 ```
+
+
+See nuget info at Dskow.Weather version [1.0.0](https://www.nuget.org/packages/Dskow.Weather/1.0.0)
