@@ -13,3 +13,39 @@ Here are some helpful links:
 * [OpenApi json file](swagger.json)
 * [OpneApi yaml file](swagger.yaml)
 
+# Usage
+
+The date needs to be set to `yyyy-MM-dd` format for the api calls to work. The FindData api call can also take `YYYY-MM-DDThh:mm:ss` format. Optional parameters can be set to null.  
+
+## Required parameters 
+The FindData api call requires `startdate`, `enddate`, and `datasetid` parameters. Check NOAA's cdo api site for info on required parameters to REST api.
+
+```
+Configuration.DateTimeFormat = "yyyy-MM-dd";
+var startdate = new DateTime(2012, 5, 1);
+var enddate = new DateTime(2012, 5, 31);
+List<string> stationid = null;
+
+var apiInstance = new DatasetApi();
+DatasetResult result = apiInstance.FindDatasets(datatypeid, locationid, stationid, startdate, enddate, sortfield, sortorder, limit, offset);
+
+var apiInstance = new DatacategoryApi();
+DatacategoryResult result = apiInstance.FindDatacategories(datasetid, locationid, stationid, startdate, enddate, sortfield, sortorder, limit, offset);
+
+var apiInstance = new DatatypeApi();
+DatatypeResult result = apiInstance.FindDatatypes(datasetid, locationid, stationid, startdate, enddate, sortfield, sortorder, limit, offset);
+
+var apiInstance = new LocationcategoryApi();
+LocationcategoryResult result = apiInstance.FindLocationcategories(datasetid, startdate, enddate, sortfield, sortorder, limit, offset);
+
+var apiInstance = new LocationApi();
+LocationResult result = apiInstance.FindLocations(datasetid, locationcategoryid, datacategoryid, startdate, enddate, sortfield, sortorder, limit, offset);
+
+var apiInstance = new StationApi();
+StationResult result = apiInstance.FindStations(datasetid, locationid, datacategoryid, datatypeid, extent, startdate, enddate, sortfield, sortorder, limit, offset);
+
+var apiInstance = new DataApi();
+DataResult result = apiInstance.FindData(datasetid, startdate, enddate, datatypeid, locationid, stationid, units, sortfield, sortorder, limit, offset, includemetadata);
+
+```
+
