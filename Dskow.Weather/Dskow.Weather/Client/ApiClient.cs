@@ -24,7 +24,7 @@ namespace Dskow.Weather.Client
         /// Initializes a new instance of the <see cref="ApiClient" /> class.
         /// </summary>
         /// <param name="basePath">The base path.</param>
-        public ApiClient(String basePath = "http://www.ncdc.noaa.gov/cdo-web/api/v2")
+        public ApiClient(String basePath = "https://www.ncdc.noaa.gov/cdo-web/api/v2")
         {
             BasePath = basePath;
             RestClient = new RestClient(BasePath);
