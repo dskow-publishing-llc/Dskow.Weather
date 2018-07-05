@@ -1,7 +1,7 @@
 # Dskow.Weather
-A .Net standard nuget library that implements NOAA's cliamte Data Online REST api
+A .Net standard nuget library that implements NOAA's climate Data Online REST api
 
-This was not sponsor nor maintained by NOAA. I wanted to see how much effort it was to take a REST inteface and create a usuable nuget package.  This turned out to take me only a day to implement the basics.
+This was not sponsor nor maintained by NOAA. I wanted to see how much effort it was to take a REST interface and create a usable nuget package.  This turned out to take me only a day to implement the basics.
 
 Here are some helpful links:
 
