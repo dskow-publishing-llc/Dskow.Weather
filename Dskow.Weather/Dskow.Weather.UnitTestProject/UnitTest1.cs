@@ -194,8 +194,8 @@ namespace Dskow.Weather.UnitTestProject
             apiInstance.ApiClient.AddDefaultHeader("token", token);
             List<string> locationid = null;
             List<string> stationid = null;
-            DateTime? startdate = null;
-            DateTime? enddate = null;
+            DateTime? startdate = DateTime.Parse("5/1/2012");
+            DateTime? enddate = DateTime.Parse("5/31/2012");
             string sortfield = null;
             string sortorder = null;
             long? limit = null;
@@ -275,8 +275,8 @@ namespace Dskow.Weather.UnitTestProject
             };
             var apiInstance = new LocationcategoryApi();
             apiInstance.ApiClient.AddDefaultHeader("token", token);
-            DateTime? startdate = null;
-            DateTime? enddate = null;
+            DateTime? startdate = DateTime.Parse("5/1/2012");
+            DateTime? enddate = DateTime.Parse("5/31/2012");
             string sortfield = null;
             string sortorder = null;
             long? limit = null;
