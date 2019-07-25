@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using RestSharp;
 using Dskow.Weather.Client;
 using Dskow.Weather.Model;
@@ -21,7 +20,7 @@ namespace Dskow.Weather.Api
         /// <param name="datatypeid">Optional. Accepts a valid data type id or a chain of data type ids separated by ampersands. Data returned will contain all of the data type(s) specified.</param>
         /// <param name="locationid">Optional. Accepts a valid location id or a chain of location ids separated by ampersands. Data returned will contain data for the location(s) specified.</param>
         /// <param name="stationid">Optional. Accepts a valid station id or a chain of of station ids separated by ampersands. Data returned will contain data for the station(s) specified.</param>
-        /// <param name="units">Optional. Accepts the literal strings &#39;standard&#39; or &#39;metric&#39;. Data will be scaled and converted to the specified units. If a unit is not provided then no scaling nor conversion will take place.</param>
+        /// <param name="units">Optional. Accepts the literal strings &#x27;standard&#x27; or &#x27;metric&#x27;. Data will be scaled and converted to the specified units. If a unit is not provided then no scaling nor conversion will take place.</param>
         /// <param name="sortfield">Optional. The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage fields</param>
         /// <param name="sortorder">Optional. Which order to sort by, asc or desc. Defaults to asc</param>
         /// <param name="limit">Optional. Defaults to 25, limits the number of results in the response. Maximum is 1000</param>
@@ -87,31 +86,27 @@ namespace Dskow.Weather.Api
         /// <summary>
         /// The data endpoint is used for actually fetching the data. Requires exactly one dataset id. Used to fetch data.
         /// </summary>
-        /// <param name="datasetid">Required. Accepts a single valid dataset id. Data returned will be from the dataset specified.</param> 
-        /// <param name="startdate">Required. Accepts valid ISO formated date (YYYY-MM-DD) or date time (YYYY-MM-DDThh:mm:ss). Data returned will be after the specified date. Annual and Monthly data will be limited to a ten year range while all other data will be limted to a one year range.</param> 
-        /// <param name="enddate">Required. Accepts valid ISO formated date (YYYY-MM-DD) or date time (YYYY-MM-DDThh:mm:ss). Data returned will be before the specified date. Annual and Monthly data will be limited to a ten year range while all other data will be limted to a one year range.</param> 
-        /// <param name="datatypeid">Optional. Accepts a valid data type id or a chain of data type ids separated by ampersands. Data returned will contain all of the data type(s) specified.</param> 
-        /// <param name="locationid">Optional. Accepts a valid location id or a chain of location ids separated by ampersands. Data returned will contain data for the location(s) specified.</param> 
-        /// <param name="stationid">Optional. Accepts a valid station id or a chain of of station ids separated by ampersands. Data returned will contain data for the station(s) specified.</param> 
-        /// <param name="units">Optional. Accepts the literal strings &#39;standard&#39; or &#39;metric&#39;. Data will be scaled and converted to the specified units. If a unit is not provided then no scaling nor conversion will take place.</param> 
-        /// <param name="sortfield">Optional. The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage fields</param> 
-        /// <param name="sortorder">Optional. Which order to sort by, asc or desc. Defaults to asc</param> 
-        /// <param name="limit">Optional. Defaults to 25, limits the number of results in the response. Maximum is 1000</param> 
-        /// <param name="offset">Optional. Defaults to 0, used to offset the resultlist. The example would begin with record 24</param> 
-        /// <param name="includemetadata">Optional. Defaults to true, used to improve response time by preventing the calculation of result metadata.</param> 
-        /// <returns>DataResult</returns>            
+        /// <param name="datasetid">Required. Accepts a single valid dataset id. Data returned will be from the dataset specified.</param>
+        /// <param name="startdate">Required. Accepts valid ISO formated date (YYYY-MM-DD) or date time (YYYY-MM-DDThh:mm:ss). Data returned will be after the specified date. Annual and Monthly data will be limited to a ten year range while all other data will be limted to a one year range.</param>
+        /// <param name="enddate">Required. Accepts valid ISO formated date (YYYY-MM-DD) or date time (YYYY-MM-DDThh:mm:ss). Data returned will be before the specified date. Annual and Monthly data will be limited to a ten year range while all other data will be limted to a one year range.</param>
+        /// <param name="datatypeid">Optional. Accepts a valid data type id or a chain of data type ids separated by ampersands. Data returned will contain all of the data type(s) specified.</param>
+        /// <param name="locationid">Optional. Accepts a valid location id or a chain of location ids separated by ampersands. Data returned will contain data for the location(s) specified.</param>
+        /// <param name="stationid">Optional. Accepts a valid station id or a chain of of station ids separated by ampersands. Data returned will contain data for the station(s) specified.</param>
+        /// <param name="units">Optional. Accepts the literal strings &#x27;standard&#x27; or &#x27;metric&#x27;. Data will be scaled and converted to the specified units. If a unit is not provided then no scaling nor conversion will take place.</param>
+        /// <param name="sortfield">Optional. The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage fields</param>
+        /// <param name="sortorder">Optional. Which order to sort by, asc or desc. Defaults to asc</param>
+        /// <param name="limit">Optional. Defaults to 25, limits the number of results in the response. Maximum is 1000</param>
+        /// <param name="offset">Optional. Defaults to 0, used to offset the resultlist. The example would begin with record 24</param>
+        /// <param name="includemetadata">Optional. Defaults to true, used to improve response time by preventing the calculation of result metadata.</param>
+        /// <returns>DataResult</returns>
         public DataResult FindData(string datasetid, DateTime? startdate, DateTime? enddate, List<string> datatypeid, List<string> locationid, List<string> stationid, string units, string sortfield, string sortorder, long? limit, long? offset, bool? includemetadata)
         {
-
             // verify the required parameter 'datasetid' is set
             if (datasetid == null) throw new ApiException(400, "Missing required parameter 'datasetid' when calling FindData");
-
             // verify the required parameter 'startdate' is set
             if (startdate == null) throw new ApiException(400, "Missing required parameter 'startdate' when calling FindData");
-
             // verify the required parameter 'enddate' is set
             if (enddate == null) throw new ApiException(400, "Missing required parameter 'enddate' when calling FindData");
-
 
             var path = "/data";
             path = path.Replace("{format}", "json");
@@ -121,12 +116,13 @@ namespace Dskow.Weather.Api
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
+
             if (datasetid != null) queryParams.Add("datasetid", ApiClient.ParameterToString(datasetid)); // query parameter
             if (datatypeid != null) queryParams.Add("datatypeid", ApiClient.ParameterToString(datatypeid)); // query parameter
             if (locationid != null) queryParams.Add("locationid", ApiClient.ParameterToString(locationid)); // query parameter
             if (stationid != null) queryParams.Add("stationid", ApiClient.ParameterToString(stationid)); // query parameter
-            if (startdate != null) queryParams.Add("startdate", ApiClient.ParameterToString(startdate?.ToString("yyyy-MM-dd"))); // query parameter
-            if (enddate != null) queryParams.Add("enddate", ApiClient.ParameterToString(enddate?.ToString("yyyy-MM-dd"))); // query parameter
+            if (startdate != null) queryParams.Add("startdate", ApiClient.ParameterToString(startdate?.ToString("yyyy-MM-ddThh:mm:ss"))); // query parameter
+            if (enddate != null) queryParams.Add("enddate", ApiClient.ParameterToString(enddate?.ToString("yyyy-MM-ddThh:mm:ss"))); // query parameter
             if (units != null) queryParams.Add("units", ApiClient.ParameterToString(units)); // query parameter
             if (sortfield != null) queryParams.Add("sortfield", ApiClient.ParameterToString(sortfield)); // query parameter
             if (sortorder != null) queryParams.Add("sortorder", ApiClient.ParameterToString(sortorder)); // query parameter

@@ -19,22 +19,21 @@ namespace Dskow.Weather.Model
         /// </summary>
         [DataMember(Name = "offset", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "offset")]
-        public int Offset { get; set; }
+        public int? Offset { get; set; }
 
         /// <summary>
         /// Gets or Sets Count
         /// </summary>
         [DataMember(Name = "count", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "count")]
-        public int Count { get; set; }
-
+        public int? Count { get; set; }
 
         /// <summary>
         /// Gets or Sets Limit
         /// </summary>
         [DataMember(Name = "limit", EmitDefaultValue = false)]
         [JsonProperty(PropertyName = "limit")]
-        public int Limit { get; set; }
+        public int? Limit { get; set; }
 
 
         /// <summary>

@@ -17,7 +17,7 @@ namespace Dskow.Weather.Client
         /// Version of the package.
         /// </summary>
         /// <value>Version of the package.</value>
-        public const string Version = "1.0.0";
+        public const string Version = "1.0.2";
 
         /// <summary>
         /// Gets or sets the default API client for making HTTP calls.
@@ -117,14 +117,14 @@ namespace Dskow.Weather.Client
         /// </summary>
         public static String ToDebugReport()
         {
-            String report = "C# SDK (IO.Swagger) Debug Report:\n";
+            String report = "C# SDK (Dskow.Weather) Debug Report:\n";
             report += "    OS: " + Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + Assembly
                      .GetExecutingAssembly()
                      .GetReferencedAssemblies()
                      .Where(x => x.Name == "System.Core").First().Version.ToString() + "\n";
-            report += "    Version of the API: 1.0.0\n";
-            report += "    SDK Package Version: 1.0.0\n";
+            report += "    Version of the API: 1.0.2\n";
+            report += "    SDK Package Version: 1.0.2\n";
 
             return report;
         }

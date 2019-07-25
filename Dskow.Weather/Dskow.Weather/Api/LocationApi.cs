@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using RestSharp;
 using Dskow.Weather.Client;
 using Dskow.Weather.Model;
@@ -90,19 +89,18 @@ namespace Dskow.Weather.Api
         /// <summary>
         /// Locations can be a specific latitude/longitude point such as a station, or a label representing a bounding area such as a city. When used without optional parameters, fetches list of available locations. Use with optional parameters below to filter results.
         /// </summary>
-        /// <param name="datasetid">Optional. Accepts a valid dataset id or a chain of dataset ids separated by ampersands. Locations returned will be supported by dataset(s) specified.</param> 
-        /// <param name="locationcategoryid">Optional. Accepts a valid location id or a chain of location category ids separated by ampersands. Locations returned will be in the location category(ies) specified.</param> 
-        /// <param name="datacategoryid">Optional. Accepts a valid data category id or an array of data category IDs. Locations returned will be associated with the data category(ies) specified.</param> 
-        /// <param name="startdate">Optional. Accepts valid ISO formated date (yyyy-mm-dd). Locations returned will have data after the specified date. Paramater can be use independently of enddate</param> 
-        /// <param name="enddate">Optional. Accepts valid ISO formated date (yyyy-mm-dd). Locations returned will have data before the specified date. Paramater can be use independently of startdate</param> 
-        /// <param name="sortfield">Optional. The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage fields</param> 
-        /// <param name="sortorder">Optional. Which order to sort by, asc or desc. Defaults to asc</param> 
-        /// <param name="limit">Optional. Defaults to 25, limits the number of results in the response. Maximum is 1000</param> 
-        /// <param name="offset">Optional. Defaults to 0, used to offset the resultlist. The example would begin with record 24</param> 
-        /// <returns>LocationResult</returns>            
+        /// <param name="datasetid">Optional. Accepts a valid dataset id or a chain of dataset ids separated by ampersands. Locations returned will be supported by dataset(s) specified.</param>
+        /// <param name="locationcategoryid">Optional. Accepts a valid location id or a chain of location category ids separated by ampersands. Locations returned will be in the location category(ies) specified.</param>
+        /// <param name="datacategoryid">Optional. Accepts a valid data category id or an array of data category IDs. Locations returned will be associated with the data category(ies) specified.</param>
+        /// <param name="startdate">Optional. Accepts valid ISO formated date (yyyy-mm-dd). Locations returned will have data after the specified date. Paramater can be use independently of enddate</param>
+        /// <param name="enddate">Optional. Accepts valid ISO formated date (yyyy-mm-dd). Locations returned will have data before the specified date. Paramater can be use independently of startdate</param>
+        /// <param name="sortfield">Optional. The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage fields</param>
+        /// <param name="sortorder">Optional. Which order to sort by, asc or desc. Defaults to asc</param>
+        /// <param name="limit">Optional. Defaults to 25, limits the number of results in the response. Maximum is 1000</param>
+        /// <param name="offset">Optional. Defaults to 0, used to offset the resultlist. The example would begin with record 24</param>
+        /// <returns>LocationResult</returns>
         public LocationResult FindLocations(List<string> datasetid, List<string> locationcategoryid, List<string> datacategoryid, DateTime? startdate, DateTime? enddate, string sortfield, string sortorder, long? limit, long? offset)
         {
-
 
             var path = "/locations";
             path = path.Replace("{format}", "json");
@@ -140,14 +138,12 @@ namespace Dskow.Weather.Api
         /// <summary>
         /// Find location by ID Used to find information about the location with id of {id}.
         /// </summary>
-        /// <param name="locationId">ID of location to return</param> 
-        /// <returns>LocationResult</returns>            
+        /// <param name="locationId">ID of location to return</param>
+        /// <returns>LocationResult</returns>
         public LocationResult GetLocationById(long? locationId)
         {
-
             // verify the required parameter 'locationId' is set
             if (locationId == null) throw new ApiException(400, "Missing required parameter 'locationId' when calling GetLocationById");
-
 
             var path = "/locations/{locationId}";
             path = path.Replace("{format}", "json");
@@ -170,8 +166,6 @@ namespace Dskow.Weather.Api
                 throw new ApiException((int)response.StatusCode, "Error calling GetLocationById: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException((int)response.StatusCode, "Error calling GetLocationById: " + response.ErrorMessage, response.ErrorMessage);
-            object obj = (object)ApiClient.Deserialize(response.Content, typeof(object), response.Headers);
-            Debug.WriteLine(obj);
 
             return (LocationResult)ApiClient.Deserialize(response.Content, typeof(LocationResult), response.Headers);
         }

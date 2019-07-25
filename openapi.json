@@ -1,5 +1,5 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.2",
   "info": {
     "description": "This is a sample server Datasetstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters.",
     "version": "1.0.0",
@@ -13,8 +13,6 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host": "www.ncdc.noaa.gov",
-  "basePath": "/cdo-web/api/v2",
   "tags": [
     {
       "name": "dataset",
@@ -37,9 +35,6 @@
       }
     }
   ],
-  "schemes": [
-    "http"
-  ],
   "paths": {
     "/datasets": {
       "get": {
@@ -49,114 +44,129 @@
         "summary": "All of the CDO data are in datasets. The containing dataset must be known before attempting to access its data.",
         "description": "When used without optional parameters, fetches list of available datasets. Use with optional parameters below to filter results",
         "operationId": "findDatasets",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "datatypeid",
             "in": "query",
             "description": "Optional. Accepts a valid data type id or a chain of data type ids separated by ampersands. Datasets returned will contain all of the data type(s) specified",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "ACMH",
-                "QGAG",
-                "QPCP"
-              ],
-              "default": "ACMH"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "ACMH",
+                  "QGAG",
+                  "QPCP"
+                ],
+                "default": "ACMH"
+              }
+            }
           },
           {
             "name": "locationid",
             "in": "query",
             "description": "Optional. Accepts a valid location id or a chain of location ids separated by ampersands. Datasets returned will contain data for the location(s) specified",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "stationid",
             "in": "query",
             "description": "Optional. Accepts a valid station id or a chain of of station ids seperated by ampersands. Datasets returned will contain data for the station(s) specified",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "startdate",
             "in": "query",
             "description": "Optional. Accepts valid ISO formated date (yyyy-mm-dd). Datasets returned will have data after the specified date. Paramater can be use independently of enddate",
             "required": false,
-            "type": "string",
-            "format": "date"
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "enddate",
             "in": "query",
             "description": "Optional. Accepts valid ISO formated date (yyyy-mm-dd). Datasets returned will have data before the specified date. Paramater can be use independently of startdate",
             "required": false,
-            "type": "string",
-            "format": "date"
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "sortfield",
             "in": "query",
             "description": "Optional. The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage fields",
             "required": false,
-            "type": "string",
-            "enum": [
-              "id",
-              "name",
-              "mindate",
-              "maxdate",
-              "datacoverage"
-            ]
+            "schema": {
+              "type": "string",
+              "enum": [
+                "id",
+                "name",
+                "mindate",
+                "maxdate",
+                "datacoverage"
+              ]
+            }
           },
           {
             "name": "sortorder",
             "in": "query",
             "description": "Optional. Which order to sort by, asc or desc. Defaults to asc",
             "required": false,
-            "type": "string",
-            "enum": [
-              "asc",
-              "desc"
-            ],
-            "default": "asc"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "asc"
+            }
           },
           {
             "name": "limit",
             "in": "query",
             "description": "Optional. Defaults to 25, limits the number of results in the response. Maximum is 1000",
             "required": false,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           },
           {
             "name": "offset",
             "in": "query",
             "description": "Optional. Defaults to 0, used to offset the resultlist. The example would begin with record 24",
             "required": false,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/DatasetResult"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatasetResult"
+                }
+              }
             }
           },
           "400": {
@@ -181,25 +191,27 @@
         "summary": "Find dataset by ID",
         "description": "Used to find information about dataset with id of {id}",
         "operationId": "getDatasetById",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "datasetId",
             "in": "path",
             "description": "ID of dataset to return",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/DatasetResult"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatasetResult"
+                }
+              }
             }
           },
           "400": {
@@ -224,113 +236,128 @@
         "summary": "Data Categories represent groupings of data types.",
         "description": "When used without optional parameters, fetches list of available datacategories. Use with optional parameters below to filter results",
         "operationId": "findDatacategories",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "datasetid",
             "in": "query",
             "description": "Optional. Accepts a valid dataset id or a chain of dataset ids separated by ampersands. Data categories returned will be supported by dataset(s) specified",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "GSOM",
-                "PRECIP_15"
-              ],
-              "default": "GSOM"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "GSOM",
+                  "PRECIP_15"
+                ],
+                "default": "GSOM"
+              }
+            }
           },
           {
             "name": "locationid",
             "in": "query",
             "description": "Optional. Accepts a valid location id or a chain of location ids separated by ampersands. Data categories returned will contain data for the location(s) specified",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "stationid",
             "in": "query",
             "description": "Optional. Accepts a valid station id or a chain of of station ids separated by ampersands. Data categories returned will contain data for the station(s) specified",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "startdate",
             "in": "query",
             "description": "Optional. Accepts valid ISO formated date (yyyy-mm-dd). Data categories returned will have data after the specified date. Paramater can be use independently of enddate",
             "required": false,
-            "type": "string",
-            "format": "date"
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "enddate",
             "in": "query",
             "description": "Optional. Accepts valid ISO formated date (yyyy-mm-dd). Data categories returned will have data before the specified date. Paramater can be use independently of startdate",
             "required": false,
-            "type": "string",
-            "format": "date"
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "sortfield",
             "in": "query",
             "description": "Optional. The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage fields",
             "required": false,
-            "type": "string",
-            "enum": [
-              "id",
-              "name",
-              "mindate",
-              "maxdate",
-              "datacoverage"
-            ]
+            "schema": {
+              "type": "string",
+              "enum": [
+                "id",
+                "name",
+                "mindate",
+                "maxdate",
+                "datacoverage"
+              ]
+            }
           },
           {
             "name": "sortorder",
             "in": "query",
             "description": "Optional. Which order to sort by, asc or desc. Defaults to asc",
             "required": false,
-            "type": "string",
-            "enum": [
-              "asc",
-              "desc"
-            ],
-            "default": "asc"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "asc"
+            }
           },
           {
             "name": "limit",
             "in": "query",
             "description": "Optional. Defaults to 25, limits the number of results in the response. Maximum is 1000",
             "required": false,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           },
           {
             "name": "offset",
             "in": "query",
             "description": "Optional. Defaults to 0, used to offset the resultlist. The example would begin with record 24",
             "required": false,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/DatacategoryResult"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatacategoryResult"
+                }
+              }
             }
           },
           "400": {
@@ -347,25 +374,27 @@
         "summary": "Find datacategory by ID",
         "description": "Returns a single datacategory",
         "operationId": "getDatacategoryById",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "datacategoryId",
             "in": "path",
             "description": "Used to find information about datacategory with id of {id}",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/DatacategoryResult"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatacategoryResult"
+                }
+              }
             }
           },
           "400": {
@@ -390,114 +419,141 @@
         "summary": "Describes the type of data, acts as a label. If it's 64°f out right now, then the data type is Air Temperature and the data is 64.",
         "description": "When used without optional parameters, fetches list of available data types. Use with optional parameters below to filter results",
         "operationId": "findDatatypes",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "datatypeid",
             "in": "query",
             "description": "Optional. Accepts a valid data type id or a chain of data type ids separated by ampersands. Datatypes returned will contain all of the data type(s) specified",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "ACMH",
-                "QGAG",
-                "QPCP"
-              ],
-              "default": "ACMH"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "ACMH",
+                  "QGAG",
+                  "QPCP"
+                ],
+                "default": "ACMH"
+              }
+            }
           },
           {
             "name": "locationid",
             "in": "query",
             "description": "Optional. Accepts a valid location id or a chain of location ids separated by ampersands. Datatypes returned will contain data for the location(s) specified",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "datacategoryid",
+            "in": "query",
+            "description": "Optional. Accepts a valid data category id or a chain of data category ids separated by ampersands. Datatypes returned will contain data for the data category(s) specified",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "stationid",
             "in": "query",
             "description": "Optional. Accepts a valid station id or a chain of of station ids seperated by ampersands. Datatypes returned will contain data for the station(s) specified",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "startdate",
             "in": "query",
             "description": "Optional. Accepts valid ISO formated date (yyyy-mm-dd). Datatypes returned will have data after the specified date. Paramater can be use independently of enddate",
             "required": false,
-            "type": "string",
-            "format": "date"
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "enddate",
             "in": "query",
             "description": "Optional. Accepts valid ISO formated date (yyyy-mm-dd). Datatypes returned will have data before the specified date. Paramater can be use independently of startdate",
             "required": false,
-            "type": "string",
-            "format": "date"
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "sortfield",
             "in": "query",
             "description": "Optional. The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage fields",
             "required": false,
-            "type": "string",
-            "enum": [
-              "id",
-              "name",
-              "mindate",
-              "maxdate",
-              "datacoverage"
-            ]
+            "schema": {
+              "type": "string",
+              "enum": [
+                "id",
+                "name",
+                "mindate",
+                "maxdate",
+                "datacoverage"
+              ]
+            }
           },
           {
             "name": "sortorder",
             "in": "query",
             "description": "Optional. Which order to sort by, asc or desc. Defaults to asc",
             "required": false,
-            "type": "string",
-            "enum": [
-              "asc",
-              "desc"
-            ],
-            "default": "asc"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "asc"
+            }
           },
           {
             "name": "limit",
             "in": "query",
             "description": "Optional. Defaults to 25, limits the number of results in the response. Maximum is 1000",
             "required": false,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           },
           {
             "name": "offset",
             "in": "query",
             "description": "Optional. Defaults to 0, used to offset the resultlist. The example would begin with record 24",
             "required": false,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/DatatypeResult"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatatypeResult"
+                }
+              }
             }
           },
           "400": {
@@ -514,25 +570,27 @@
         "summary": "Find datatype by ID",
         "description": "Used to find information about the data type with id of {id}",
         "operationId": "getDatatypeById",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "datatypeId",
             "in": "path",
             "description": "ID of datatype to return",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/DatatypeResult"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatatypeResult"
+                }
+              }
             }
           },
           "400": {
@@ -557,91 +615,104 @@
         "summary": "Finds Locationcategories",
         "description": "When used without optional parameters, fetches list of available location categories. Use with optional parameters below to filter results",
         "operationId": "findLocationcategories",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "datasetid",
             "in": "query",
             "description": "Optional. Accepts a valid dataset id or a chain of dataset ids separated by ampersands. Location categories returned will be supported by dataset(s) specified",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "GSOM",
-                "PRECIP_15"
-              ],
-              "default": "GSOM"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "GSOM",
+                  "PRECIP_15"
+                ],
+                "default": "GSOM"
+              }
+            }
           },
           {
             "name": "startdate",
             "in": "query",
             "description": "Optional. Accepts valid ISO formated date (yyyy-mm-dd). Location categories returned will have data after the specified date. Paramater can be use independently of enddate",
             "required": false,
-            "type": "string",
-            "format": "date"
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "enddate",
             "in": "query",
             "description": "Optional. Accepts valid ISO formated date (yyyy-mm-dd). Location categories returned will have data before the specified date. Paramater can be use independently of startdate",
             "required": false,
-            "type": "string",
-            "format": "date"
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "sortfield",
             "in": "query",
             "description": "Optional. The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage fields",
             "required": false,
-            "type": "string",
-            "enum": [
-              "id",
-              "name",
-              "mindate",
-              "maxdate",
-              "datacoverage"
-            ]
+            "schema": {
+              "type": "string",
+              "enum": [
+                "id",
+                "name",
+                "mindate",
+                "maxdate",
+                "datacoverage"
+              ]
+            }
           },
           {
             "name": "sortorder",
             "in": "query",
             "description": "Optional. Which order to sort by, asc or desc. Defaults to asc",
             "required": false,
-            "type": "string",
-            "enum": [
-              "asc",
-              "desc"
-            ],
-            "default": "asc"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "asc"
+            }
           },
           {
             "name": "limit",
             "in": "query",
             "description": "Optional. Defaults to 25, limits the number of results in the response. Maximum is 1000",
             "required": false,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           },
           {
             "name": "offset",
             "in": "query",
             "description": "Optional. Defaults to 0, used to offset the resultlist. The example would begin with record 24",
             "required": false,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/LocationcategoryResult"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationcategoryResult"
+                }
+              }
             }
           },
           "400": {
@@ -658,25 +729,27 @@
         "summary": "Find locationcategory by ID",
         "description": "Used to find information about the location category with id of {id}",
         "operationId": "getLocationcategoryById",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "locationcategoryId",
             "in": "path",
             "description": "ID of locationcategory to return",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/LocationcategoryResult"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationcategoryResult"
+                }
+              }
             }
           },
           "400": {
@@ -701,113 +774,128 @@
         "summary": "Locations can be a specific latitude/longitude point such as a station, or a label representing a bounding area such as a city.",
         "description": "When used without optional parameters, fetches list of available locations. Use with optional parameters below to filter results.",
         "operationId": "findLocations",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "datasetid",
             "in": "query",
             "description": "Optional. Accepts a valid dataset id or a chain of dataset ids separated by ampersands. Locations returned will be supported by dataset(s) specified.",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "GSOM",
-                "PRECIP_15"
-              ],
-              "default": "GSOM"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "GSOM",
+                  "PRECIP_15"
+                ],
+                "default": "GSOM"
+              }
+            }
           },
           {
             "name": "locationcategoryid",
             "in": "query",
             "description": "Optional. Accepts a valid location id or a chain of location category ids separated by ampersands. Locations returned will be in the location category(ies) specified.",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "datacategoryid",
             "in": "query",
             "description": "Optional. Accepts a valid data category id or an array of data category IDs. Locations returned will be associated with the data category(ies) specified.",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "startdate",
             "in": "query",
             "description": "Optional. Accepts valid ISO formated date (yyyy-mm-dd). Locations returned will have data after the specified date. Paramater can be use independently of enddate",
             "required": false,
-            "type": "string",
-            "format": "date"
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "enddate",
             "in": "query",
             "description": "Optional. Accepts valid ISO formated date (yyyy-mm-dd). Locations returned will have data before the specified date. Paramater can be use independently of startdate",
             "required": false,
-            "type": "string",
-            "format": "date"
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "sortfield",
             "in": "query",
             "description": "Optional. The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage fields",
             "required": false,
-            "type": "string",
-            "enum": [
-              "id",
-              "name",
-              "mindate",
-              "maxdate",
-              "datacoverage"
-            ]
+            "schema": {
+              "type": "string",
+              "enum": [
+                "id",
+                "name",
+                "mindate",
+                "maxdate",
+                "datacoverage"
+              ]
+            }
           },
           {
             "name": "sortorder",
             "in": "query",
             "description": "Optional. Which order to sort by, asc or desc. Defaults to asc",
             "required": false,
-            "type": "string",
-            "enum": [
-              "asc",
-              "desc"
-            ],
-            "default": "asc"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "asc"
+            }
           },
           {
             "name": "limit",
             "in": "query",
             "description": "Optional. Defaults to 25, limits the number of results in the response. Maximum is 1000",
             "required": false,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           },
           {
             "name": "offset",
             "in": "query",
             "description": "Optional. Defaults to 0, used to offset the resultlist. The example would begin with record 24",
             "required": false,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/LocationResult"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationResult"
+                }
+              }
             }
           },
           "400": {
@@ -824,25 +912,27 @@
         "summary": "Find location by ID",
         "description": "Used to find information about the location with id of {id}.",
         "operationId": "getLocationById",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "locationId",
             "in": "path",
             "description": "ID of location to return",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/LocationResult"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationResult"
+                }
+              }
             }
           },
           "400": {
@@ -867,135 +957,152 @@
         "summary": "Finds Stations",
         "description": "When used without optional parameters, fetches list of available stations. Use with optional parameters below to filter results",
         "operationId": "findStations",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "datasetid",
             "in": "query",
             "description": "Optional. Accepts a valid dataset id or a chain of dataset ids separated by ampersands. Stations returned will be supported by dataset(s) specified",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "GSOM",
-                "PRECIP_15"
-              ],
-              "default": "GSOM"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "GSOM",
+                  "PRECIP_15"
+                ],
+                "default": "GSOM"
+              }
+            }
           },
           {
             "name": "locationid",
             "in": "query",
             "description": "Optional. Accepts a valid location id or a chain of location ids separated by ampersands. Stations returned will contain data for the location(s) specified",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "datacategoryid",
             "in": "query",
             "description": "Optional. Accepts a valid data category id or an array of data category ids. Stations returned will be associated with the data category(ies) specified",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "datatypeid",
             "in": "query",
             "description": "Optional. Accepts a valid data type id or a chain of data type ids separated by ampersands. Stations returned will contain all of the data type(s) specified",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "extent",
             "in": "query",
             "description": "Optional. The desired geographical extent for search. Designed to take a parameter generated by Google Maps API V3 LatLngBounds.toUrlValue. Stations returned must be located within the extent specified.",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "startdate",
             "in": "query",
             "description": "Optional. Accepts valid ISO formated date (yyyy-mm-dd). Stations returned will have data after the specified date. Paramater can be use independently of enddate",
             "required": false,
-            "type": "string",
-            "format": "date"
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "enddate",
             "in": "query",
             "description": "Optional. Accepts valid ISO formated date (yyyy-mm-dd). Stations returned will have data before the specified date. Paramater can be use independently of startdate",
             "required": false,
-            "type": "string",
-            "format": "date"
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "sortfield",
             "in": "query",
             "description": "Optional. The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage fields",
             "required": false,
-            "type": "string",
-            "enum": [
-              "id",
-              "name",
-              "mindate",
-              "maxdate",
-              "datacoverage"
-            ]
+            "schema": {
+              "type": "string",
+              "enum": [
+                "id",
+                "name",
+                "mindate",
+                "maxdate",
+                "datacoverage"
+              ]
+            }
           },
           {
             "name": "sortorder",
             "in": "query",
             "description": "Optional. Which order to sort by, asc or desc. Defaults to asc",
             "required": false,
-            "type": "string",
-            "enum": [
-              "asc",
-              "desc"
-            ],
-            "default": "asc"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "asc"
+            }
           },
           {
             "name": "limit",
             "in": "query",
             "description": "Optional. Defaults to 25, limits the number of results in the response. Maximum is 1000",
             "required": false,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           },
           {
             "name": "offset",
             "in": "query",
             "description": "Optional. Defaults to 0, used to offset the resultlist. The example would begin with record 24",
             "required": false,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/StationResult"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StationResult"
+                }
+              }
             }
           },
           "400": {
@@ -1012,25 +1119,27 @@
         "summary": "Find station by ID",
         "description": "Returns a single station",
         "operationId": "getStationById",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "stationId",
             "in": "path",
             "description": "ID of station to return",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/StationResult"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StationResult"
+                }
+              }
             }
           },
           "400": {
@@ -1055,139 +1164,160 @@
         "summary": "The data endpoint is used for actually fetching the data.",
         "description": "Requires exactly one dataset id. Used to fetch data.",
         "operationId": "findData",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "datasetid",
             "in": "query",
             "description": "Required. Accepts a single valid dataset id. Data returned will be from the dataset specified.",
             "required": true,
-            "type": "string",
-            "enum": [
-              "GSOM",
-              "PRECIP_15"
-            ],
-            "default": "GSOM"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "GSOM",
+                "PRECIP_15"
+              ],
+              "default": "GSOM"
+            }
           },
           {
             "name": "datatypeid",
             "in": "query",
             "description": "Optional. Accepts a valid data type id or a chain of data type ids separated by ampersands. Data returned will contain all of the data type(s) specified.",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "locationid",
             "in": "query",
             "description": "Optional. Accepts a valid location id or a chain of location ids separated by ampersands. Data returned will contain data for the location(s) specified.",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "stationid",
             "in": "query",
             "description": "Optional. Accepts a valid station id or a chain of of station ids separated by ampersands. Data returned will contain data for the station(s) specified.",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           },
           {
             "name": "startdate",
             "in": "query",
             "description": "Required. Accepts valid ISO formated date (YYYY-MM-DD) or date time (YYYY-MM-DDThh:mm:ss). Data returned will be after the specified date. Annual and Monthly data will be limited to a ten year range while all other data will be limted to a one year range.",
             "required": true,
-            "type": "string",
-            "format": "date"
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "enddate",
             "in": "query",
             "description": "Required. Accepts valid ISO formated date (YYYY-MM-DD) or date time (YYYY-MM-DDThh:mm:ss). Data returned will be before the specified date. Annual and Monthly data will be limited to a ten year range while all other data will be limted to a one year range.",
             "required": true,
-            "type": "string",
-            "format": "date"
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "units",
             "in": "query",
             "description": "Optional. Accepts the literal strings 'standard' or 'metric'. Data will be scaled and converted to the specified units. If a unit is not provided then no scaling nor conversion will take place.",
             "required": false,
-            "type": "string",
-            "enum": [
-              "standard",
-              "metric"
-            ]
+            "schema": {
+              "type": "string",
+              "enum": [
+                "standard",
+                "metric"
+              ]
+            }
           },
           {
             "name": "sortfield",
             "in": "query",
             "description": "Optional. The field to sort results by. Supports id, name, mindate, maxdate, and datacoverage fields",
             "required": false,
-            "type": "string",
-            "enum": [
-              "id",
-              "name",
-              "mindate",
-              "maxdate",
-              "datacoverage"
-            ]
+            "schema": {
+              "type": "string",
+              "enum": [
+                "id",
+                "name",
+                "mindate",
+                "maxdate",
+                "datacoverage"
+              ]
+            }
           },
           {
             "name": "sortorder",
             "in": "query",
             "description": "Optional. Which order to sort by, asc or desc. Defaults to asc",
             "required": false,
-            "type": "string",
-            "enum": [
-              "asc",
-              "desc"
-            ],
-            "default": "asc"
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "asc"
+            }
           },
           {
             "name": "limit",
             "in": "query",
             "description": "Optional. Defaults to 25, limits the number of results in the response. Maximum is 1000",
             "required": false,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           },
           {
             "name": "offset",
             "in": "query",
             "description": "Optional. Defaults to 0, used to offset the resultlist. The example would begin with record 24",
             "required": false,
-            "type": "integer",
-            "format": "int64"
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           },
           {
             "name": "includemetadata",
             "in": "query",
             "description": "Optional. Defaults to true, used to improve response time by preventing the calculation of result metadata.",
             "required": false,
-            "type": "boolean",
-            "default": "true"
+            "schema": {
+              "type": "boolean",
+              "default": "true"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/DataResult"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResult"
+                }
+              }
             }
           },
           "400": {
@@ -1197,425 +1327,351 @@
       }
     }
   },
-  "securityDefinitions": {
-    "datasetstore_auth": {
-      "type": "oauth2",
-      "authorizationUrl": "http://datasetstore.swagger.io/oauth/dialog",
-      "flow": "implicit",
-      "scopes": {
-        "write:datasets": "modify datasets in your account",
-        "read:datasets": "read your datasets"
-      }
-    },
-    "api_key": {
-      "type": "apiKey",
-      "name": "api_key",
-      "in": "header"
-    }
-  },
-  "definitions": {
-    "Category": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "xml": {
-        "name": "Category"
-      }
-    },
-    "User": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "username": {
-          "type": "string"
-        },
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "userStatus": {
-          "type": "integer",
-          "format": "int32",
-          "description": "User Status"
-        }
-      },
-      "xml": {
-        "name": "User"
-      }
-    },
-    "Tag": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "xml": {
-        "name": "Tag"
-      }
-    },
-    "ResultSet": {
-      "type": "object",
-      "properties": {
-        "offset": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "count": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "limit": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
-    },
-    "Metadata": {
-      "type": "object",
-      "properties": {
-        "resultset": {
-          "$ref": "#/definitions/ResultSet"
-        }
-      }
-    },
-    "DatasetResult": {
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/Metadata"
-        },
-        "results": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Dataset"
+  "components": {
+    "securitySchemes": {
+      "datasetstore_auth": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://datasetstore.swagger.io/oauth/dialog",
+            "tokenUrl": "https://datasetstore.swagger.io/oauth/token",
+            "scopes": {
+              "write:datasets": "modify datasets in your account",
+              "read:datasets": "read your datasets"
+            }
           }
         }
-      }
-    },
-    "Dataset": {
-      "type": "object",
-      "required": [
-        "name",
-        "photoUrls"
-      ],
-      "properties": {
-        "uid": {
-          "type": "string"
-        },
-        "mindate": {
-          "type": "string",
-          "format": "date"
-        },
-        "maxdate": {
-          "type": "string",
-          "format": "date"
-        },
-        "name": {
-          "type": "string"
-        },
-        "datacoverage": {
-          "type": "number",
-          "format": "float"
-        },
-        "id": {
-          "type": "string"
-        }
       },
-      "xml": {
-        "name": "Dataset"
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header"
       }
     },
-    "DatacategoryResult": {
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/Metadata"
-        },
-        "results": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Datacategory"
+    "schemas": {
+      "ResultSet": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32"
           }
         }
-      }
-    },
-    "Datacategory": {
-      "type": "object",
-      "required": [
-        "name",
-        "photoUrls"
-      ],
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
       },
-      "xml": {
-        "name": "Datacategory"
-      }
-    },
-    "DatatypeResult": {
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/Metadata"
-        },
-        "results": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Datatype"
+      "Metadata": {
+        "type": "object",
+        "properties": {
+          "resultset": {
+            "$ref": "#/components/schemas/ResultSet"
           }
         }
-      }
-    },
-    "Datatype": {
-      "type": "object",
-      "required": [
-        "name",
-        "photoUrls"
-      ],
-      "properties": {
-        "mindate": {
-          "type": "string",
-          "format": "date"
-        },
-        "maxdate": {
-          "type": "string",
-          "format": "date"
-        },
-        "name": {
-          "type": "string"
-        },
-        "datacoverage": {
-          "type": "number",
-          "format": "float"
-        },
-        "id": {
-          "type": "string"
-        }
       },
-      "xml": {
-        "name": "Datatype"
-      }
-    },
-    "LocationcategoryResult": {
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/Metadata"
-        },
-        "results": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Locationcategory"
+      "DatasetResult": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dataset"
+            }
           }
         }
-      }
-    },
-    "Locationcategory": {
-      "type": "object",
-      "required": [
-        "name",
-        "photoUrls"
-      ],
-      "properties": {
-        "name": {
-          "type": "string"
+      },
+      "Dataset": {
+        "type": "object",
+        "required": [
+          "name",
+          "photoUrls"
+        ],
+        "properties": {
+          "uid": {
+            "type": "string"
+          },
+          "mindate": {
+            "type": "string",
+            "format": "date"
+          },
+          "maxdate": {
+            "type": "string",
+            "format": "date"
+          },
+          "name": {
+            "type": "string"
+          },
+          "datacoverage": {
+            "type": "number",
+            "format": "float"
+          },
+          "id": {
+            "type": "string"
+          }
         },
-        "id": {
-          "type": "string"
+        "xml": {
+          "name": "Dataset"
         }
       },
-      "xml": {
-        "name": "Locationcategory"
-      }
-    },
-    "LocationResult": {
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/Metadata"
-        },
-        "results": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Location"
+      "DatacategoryResult": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Datacategory"
+            }
           }
         }
-      }
-    },
-    "Location": {
-      "type": "object",
-      "required": [
-        "name",
-        "photoUrls"
-      ],
-      "properties": {
-        "mindate": {
-          "type": "string",
-          "format": "date"
+      },
+      "Datacategory": {
+        "type": "object",
+        "required": [
+          "name",
+          "photoUrls"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
         },
-        "maxdate": {
-          "type": "string",
-          "format": "date"
-        },
-        "name": {
-          "type": "string"
-        },
-        "datacoverage": {
-          "type": "number",
-          "format": "float"
-        },
-        "id": {
-          "type": "string"
+        "xml": {
+          "name": "Datacategory"
         }
       },
-      "xml": {
-        "name": "Location"
-      }
-    },
-    "StationResult": {
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/Metadata"
-        },
-        "results": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Station"
+      "DatatypeResult": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Datatype"
+            }
           }
         }
-      }
-    },
-    "Station": {
-      "type": "object",
-      "required": [
-        "name",
-        "photoUrls"
-      ],
-      "properties": {
-        "elevation": {
-          "type": "number",
-          "format": "float"
+      },
+      "Datatype": {
+        "type": "object",
+        "required": [
+          "name",
+          "photoUrls"
+        ],
+        "properties": {
+          "mindate": {
+            "type": "string",
+            "format": "date"
+          },
+          "maxdate": {
+            "type": "string",
+            "format": "date"
+          },
+          "name": {
+            "type": "string"
+          },
+          "datacoverage": {
+            "type": "number",
+            "format": "float"
+          },
+          "id": {
+            "type": "string"
+          }
         },
-        "mindate": {
-          "type": "string",
-          "format": "date"
-        },
-        "maxdate": {
-          "type": "string",
-          "format": "date"
-        },
-        "latitude": {
-          "type": "number",
-          "format": "float"
-        },
-        "name": {
-          "type": "string"
-        },
-        "datacoverage": {
-          "type": "number",
-          "format": "float"
-        },
-        "id": {
-          "type": "string"
-        },
-        "elevationUnit": {
-          "type": "string"
-        },
-        "longitude": {
-          "type": "number",
-          "format": "float"
+        "xml": {
+          "name": "Datatype"
         }
       },
-      "xml": {
-        "name": "Station"
-      }
-    },
-    "DataResult": {
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "$ref": "#/definitions/Metadata"
-        },
-        "results": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Data"
+      "LocationcategoryResult": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Locationcategory"
+            }
           }
         }
-      }
-    },
-    "Data": {
-      "type": "object",
-      "required": [
-        "name",
-        "photoUrls"
-      ],
-      "properties": {
-        "date": {
-          "type": "string",
-          "format": "date-time"
+      },
+      "Locationcategory": {
+        "type": "object",
+        "required": [
+          "name",
+          "photoUrls"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
         },
-        "datatype": {
-          "type": "string"
-        },
-        "station": {
-          "type": "string"
-        },
-        "attributes": {
-          "type": "string"
-        },
-        "value": {
-          "type": "string"
+        "xml": {
+          "name": "Locationcategory"
         }
       },
-      "xml": {
-        "name": "Data"
-      }
-    },
-    "ApiResponse": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
+      "LocationResult": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Location"
+            }
+          }
+        }
+      },
+      "Location": {
+        "type": "object",
+        "required": [
+          "name",
+          "photoUrls"
+        ],
+        "properties": {
+          "mindate": {
+            "type": "string",
+            "format": "date"
+          },
+          "maxdate": {
+            "type": "string",
+            "format": "date"
+          },
+          "name": {
+            "type": "string"
+          },
+          "datacoverage": {
+            "type": "number",
+            "format": "float"
+          },
+          "id": {
+            "type": "string"
+          }
         },
-        "type": {
-          "type": "string"
+        "xml": {
+          "name": "Location"
+        }
+      },
+      "StationResult": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Station"
+            }
+          }
+        }
+      },
+      "Station": {
+        "type": "object",
+        "required": [
+          "name",
+          "photoUrls"
+        ],
+        "properties": {
+          "elevation": {
+            "type": "number",
+            "format": "float"
+          },
+          "mindate": {
+            "type": "string",
+            "format": "date"
+          },
+          "maxdate": {
+            "type": "string",
+            "format": "date"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "name": {
+            "type": "string"
+          },
+          "datacoverage": {
+            "type": "number",
+            "format": "float"
+          },
+          "id": {
+            "type": "string"
+          },
+          "elevationUnit": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float"
+          }
         },
-        "message": {
-          "type": "string"
+        "xml": {
+          "name": "Station"
+        }
+      },
+      "DataResult": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Data"
+            }
+          }
+        }
+      },
+      "Data": {
+        "type": "object",
+        "required": [
+          "name",
+          "photoUrls"
+        ],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "datatype": {
+            "type": "string"
+          },
+          "station": {
+            "type": "string"
+          },
+          "attributes": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "Data"
         }
       }
     }
