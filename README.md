@@ -27,25 +27,32 @@ var enddate = new DateTime(2012, 5, 31);
 List<string> stationid = null;
 
 var apiInstance = new DatasetApi();
-DatasetResult result = apiInstance.FindDatasets(datatypeid, locationid, stationid, startdate, enddate, sortfield, sortorder, limit, offset);
+DatasetResult result = apiInstance.FindDatasets(datatypeid, locationid, stationid, startdate, enddate,
+  sortfield, sortorder, limit, offset);
 
 var apiInstance = new DatacategoryApi();
-DatacategoryResult result = apiInstance.FindDatacategories(datasetid, locationid, stationid, startdate, enddate, sortfield, sortorder, limit, offset);
+DatacategoryResult result = apiInstance.FindDatacategories(datasetid, locationid, stationid, startdate,
+  enddate, sortfield, sortorder, limit, offset);
 
 var apiInstance = new DatatypeApi();
-DatatypeResult result = apiInstance.FindDatatypes(datasetid, locationid, stationid, startdate, enddate, sortfield, sortorder, limit, offset);
+DatatypeResult result = apiInstance.FindDatatypes(datasetid, locationid, datacategoryid, stationid,
+  startdate, enddate, sortfield, sortorder, limit, offset);
 
 var apiInstance = new LocationcategoryApi();
-LocationcategoryResult result = apiInstance.FindLocationcategories(datasetid, startdate, enddate, sortfield, sortorder, limit, offset);
+LocationcategoryResult result = apiInstance.FindLocationcategories(datasetid, startdate, enddate,
+  sortfield, sortorder, limit, offset);
 
 var apiInstance = new LocationApi();
-LocationResult result = apiInstance.FindLocations(datasetid, locationcategoryid, datacategoryid, startdate, enddate, sortfield, sortorder, limit, offset);
+LocationResult result = apiInstance.FindLocations(datasetid, locationcategoryid, datacategoryid,
+  startdate, enddate, sortfield, sortorder, limit, offset);
 
 var apiInstance = new StationApi();
-StationResult result = apiInstance.FindStations(datasetid, locationid, datacategoryid, datatypeid, extent, startdate, enddate, sortfield, sortorder, limit, offset);
+StationResult result = apiInstance.FindStations(datasetid, locationid, datacategoryid, datatypeid,
+  extent, startdate, enddate, sortfield, sortorder, limit, offset);
 
 var apiInstance = new DataApi();
-DataResult result = apiInstance.FindData(datasetid, startdate, enddate, datatypeid, locationid, stationid, units, sortfield, sortorder, limit, offset, includemetadata);
+DataResult result = apiInstance.FindData(datasetid, startdate, enddate, datatypeid, locationid, stationid,
+  units, sortfield, sortorder, limit, offset, includemetadata);
 
 ```
 
