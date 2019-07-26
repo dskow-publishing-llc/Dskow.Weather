@@ -142,8 +142,8 @@ namespace Dskow.Weather.UnitTestProject
             List<string> datatypeid = null;
             List<string> locationid = null;
             List<string> stationid = null;
-            DateTime? startdate = null;
-            DateTime? enddate = null;
+            DateTime? startdate = DateTime.Parse("5/1/2012");
+            DateTime? enddate = DateTime.Parse("5/31/2012");
             string sortfield = null;
             string sortorder = null;
             long? limit = null;
@@ -654,6 +654,7 @@ namespace Dskow.Weather.UnitTestProject
         /// any time range
         /// PRCP (Precipitation) data category
         /// in either the GHCND (Daily Summaries) or GSOM (Global Summary of the Month) dataset
+        /// when date range is added only 4 of the 8 are found.
         /// </summary>
         [Ignore]
         [TestMethod]
@@ -661,14 +662,14 @@ namespace Dskow.Weather.UnitTestProject
         {
             List<Datatype> expected = new List<Datatype>()
             {
-                new Datatype()
-                {
-                    Datacoverage = 1,
-                    Id = "DAPR",
-                    Maxdate = DateTime.Parse("7/23/2019 12:00:00 AM"),
-                    Mindate = DateTime.Parse("5/11/1832 12:00:00 AM"),
-                    Name = "Number of days included in the multiday precipitation total (MDPR)"
-                },
+                //new Datatype()
+                //{
+                //    Datacoverage = 1,
+                //    Id = "DAPR",
+                //    Maxdate = DateTime.Parse("7/23/2019 12:00:00 AM"),
+                //    Mindate = DateTime.Parse("5/11/1832 12:00:00 AM"),
+                //    Name = "Number of days included in the multiday precipitation total (MDPR)"
+                //},
                 new Datatype()
                 {
                     Datacoverage = 1,
@@ -685,30 +686,30 @@ namespace Dskow.Weather.UnitTestProject
                     Mindate = DateTime.Parse("5/1/1840 12:00:00 AM"),
                     Name = "Extreme maximum snowfall for the period."
                 },
-                new Datatype()
-                {
-                    Datacoverage = 1,
-                    Id = "MDPR",
-                    Maxdate = DateTime.Parse("7/23/2019 12:00:00 AM"),
-                    Mindate = DateTime.Parse("5/11/1832 12:00:00 AM"),
-                    Name = "Multiday precipitation total (use with DAPR and DWPR, if available)"
-                },
-                new Datatype()
-                {
-                    Datacoverage = 1,
-                    Id = "MXSD",
-                    Maxdate = DateTime.Parse("3/1/2016 12:00:00 AM"),
-                    Mindate = DateTime.Parse("1/1/1857 12:00:00 AM"),
-                    Name = "Maximum snow depth"
-                },
-                new Datatype()
-                {
-                    Datacoverage = 1,
-                    Id = "SNWD",
-                    Maxdate = DateTime.Parse("7/23/2019 12:00:00 AM"),
-                    Mindate = DateTime.Parse("1/18/1857 12:00:00 AM"),
-                    Name = "Snow depth"
-                },
+                //new Datatype()
+                //{
+                //    Datacoverage = 1,
+                //    Id = "MDPR",
+                //    Maxdate = DateTime.Parse("7/23/2019 12:00:00 AM"),
+                //    Mindate = DateTime.Parse("5/11/1832 12:00:00 AM"),
+                //    Name = "Multiday precipitation total (use with DAPR and DWPR, if available)"
+                //},
+                //new Datatype()
+                //{
+                //    Datacoverage = 1,
+                //    Id = "MXSD",
+                //    Maxdate = DateTime.Parse("3/1/2016 12:00:00 AM"),
+                //    Mindate = DateTime.Parse("1/1/1857 12:00:00 AM"),
+                //    Name = "Maximum snow depth"
+                //},
+                //new Datatype()
+                //{
+                //    Datacoverage = 1,
+                //    Id = "SNWD",
+                //    Maxdate = DateTime.Parse("7/23/2019 12:00:00 AM"),
+                //    Mindate = DateTime.Parse("1/18/1857 12:00:00 AM"),
+                //    Name = "Snow depth"
+                //},
                 new Datatype()
                 {
                     Datacoverage = 1,
@@ -730,8 +731,8 @@ namespace Dskow.Weather.UnitTestProject
             apiInstance.ApiClient.AddDefaultHeader("token", token);
             List<string> locationid = null;
             List<string> stationid = new List<string>() { "GHCND:US1NCWK0013" };
-            DateTime? startdate = null;
-            DateTime? enddate = null;
+            DateTime? startdate = DateTime.Parse("5/1/2012");
+            DateTime? enddate = DateTime.Parse("5/31/2012");
             string sortfield = null;
             string sortorder = null;
             long? limit = 10;

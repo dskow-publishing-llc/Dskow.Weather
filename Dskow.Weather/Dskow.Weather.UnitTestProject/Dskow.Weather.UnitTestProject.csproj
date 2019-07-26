@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>D2DAA279-2F9B-4C36-A7A8-5E86D5921C14</UserSecretsId>
     <IsPackable>false</IsPackable>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
