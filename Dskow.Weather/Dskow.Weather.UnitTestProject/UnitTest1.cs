@@ -31,7 +31,7 @@ namespace Dskow.Weather.UnitTestProject
             token = Configuration["Weather:WeatherToken"];
         }
 
-        //[Ignore]
+        [Ignore]
         [TestMethod]
         public void TestFindDatasets()
         {
@@ -142,8 +142,8 @@ namespace Dskow.Weather.UnitTestProject
             List<string> datatypeid = null;
             List<string> locationid = null;
             List<string> stationid = null;
-            DateTime? startdate = DateTime.Parse("5/1/2012");
-            DateTime? enddate = DateTime.Parse("5/31/2012");
+            DateTime? startdate = DateTime.Parse("5/1/2022");
+            DateTime? enddate = DateTime.Parse("5/31/2022");
             string sortfield = null;
             string sortorder = null;
             long? limit = null;
@@ -194,8 +194,8 @@ namespace Dskow.Weather.UnitTestProject
             apiInstance.ApiClient.AddDefaultHeader("token", token);
             List<string> locationid = null;
             List<string> stationid = null;
-            DateTime? startdate = DateTime.Parse("5/1/2012");
-            DateTime? enddate = DateTime.Parse("5/31/2012");
+            DateTime? startdate = DateTime.Parse("5/1/2022");
+            DateTime? enddate = DateTime.Parse("5/31/2022");
             string sortfield = null;
             string sortorder = null;
             long? limit = null;
@@ -275,8 +275,8 @@ namespace Dskow.Weather.UnitTestProject
             };
             var apiInstance = new LocationcategoryApi();
             apiInstance.ApiClient.AddDefaultHeader("token", token);
-            DateTime? startdate = DateTime.Parse("5/1/2012");
-            DateTime? enddate = DateTime.Parse("5/31/2012");
+            DateTime? startdate = DateTime.Parse("5/1/2022");
+            DateTime? enddate = DateTime.Parse("5/31/2022");
             string sortfield = null;
             string sortorder = null;
             long? limit = null;
@@ -731,8 +731,8 @@ namespace Dskow.Weather.UnitTestProject
             apiInstance.ApiClient.AddDefaultHeader("token", token);
             List<string> locationid = null;
             List<string> stationid = new List<string>() { "GHCND:US1NCWK0013" };
-            DateTime? startdate = DateTime.Parse("5/1/2012");
-            DateTime? enddate = DateTime.Parse("5/31/2012");
+            DateTime? startdate = DateTime.Parse("5/1/2022");
+            DateTime? enddate = DateTime.Parse("5/31/2022");
             string sortfield = null;
             string sortorder = null;
             long? limit = 10;

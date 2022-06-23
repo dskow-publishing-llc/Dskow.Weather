@@ -134,14 +134,14 @@ namespace Dskow.Weather.Api
             String[] authSettings = new String[] { };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse)ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            RestResponse response = (RestResponse)ApiClient.CallApi(path, Method.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException((int)response.StatusCode, "Error calling FindData: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException((int)response.StatusCode, "Error calling FindData: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (DataResult)ApiClient.Deserialize(response.Content, typeof(DataResult), response.Headers);
+            return (DataResult)ApiClient.Deserialize(response.Content, typeof(DataResult), (IList<Parameter>)response.Headers);
         }
 
     }

@@ -131,14 +131,14 @@ namespace Dskow.Weather.Api
             String[] authSettings = new String[] { };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse)ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
-
+            RestResponse response = (RestResponse)ApiClient.CallApi(path, Method.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException((int)response.StatusCode, "Error calling FindStations: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException((int)response.StatusCode, "Error calling FindStations: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (StationResult)ApiClient.Deserialize(response.Content, typeof(StationResult), response.Headers);
+            return (StationResult)ApiClient.Deserialize(response.Content, typeof(StationResult), (IList<Parameter>)response.Headers);
         }
 
         /// <summary>
@@ -166,14 +166,14 @@ namespace Dskow.Weather.Api
             String[] authSettings = new String[] { "api_key" };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse)ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            RestResponse response = (RestResponse)ApiClient.CallApi(path, Method.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException((int)response.StatusCode, "Error calling GetStationById: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException((int)response.StatusCode, "Error calling GetStationById: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (StationResult)ApiClient.Deserialize(response.Content, typeof(StationResult), response.Headers);
+            return (StationResult)ApiClient.Deserialize(response.Content, typeof(StationResult), (IList<Parameter>)response.Headers);
         }
 
     }

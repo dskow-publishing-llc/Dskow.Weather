@@ -128,14 +128,14 @@ namespace Dskow.Weather.Api
             String[] authSettings = new String[] { };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse)ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            RestResponse response = (RestResponse)ApiClient.CallApi(path, Method.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException((int)response.StatusCode, "Error calling FindDatatypes: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException((int)response.StatusCode, "Error calling FindDatatypes: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (DatatypeResult)ApiClient.Deserialize(response.Content, typeof(DatatypeResult), response.Headers);
+            return (DatatypeResult)ApiClient.Deserialize(response.Content, typeof(DatatypeResult), (IList<Parameter>)response.Headers);
         }
 
         /// <summary>
@@ -163,14 +163,14 @@ namespace Dskow.Weather.Api
             String[] authSettings = new String[] { "api_key" };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse)ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            RestResponse response = (RestResponse)ApiClient.CallApi(path, Method.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException((int)response.StatusCode, "Error calling GetDatatypeById: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException((int)response.StatusCode, "Error calling GetDatatypeById: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (DatatypeResult)ApiClient.Deserialize(response.Content, typeof(DatatypeResult), response.Headers);
+            return (DatatypeResult)ApiClient.Deserialize(response.Content, typeof(DatatypeResult), (IList<Parameter>)response.Headers);
         }
 
     }

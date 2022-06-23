@@ -88,8 +88,12 @@ namespace Dskow.Weather.Client
                 request.AddParameter(param.Key, param.Value, ParameterType.GetOrPost);
 
             // add file parameter, if any
-            foreach (var param in fileParams)
-                request.AddFile(param.Value.Name, param.Value.Writer, param.Value.FileName, param.Value.ContentLength, param.Value.ContentType);
+            //foreach (var param in fileParams)
+            //{
+            //    byte[] bytes = param.Value.Writer;
+            //    string contentType = param.Value.ContentType;
+            //    request.AddFile(param.Value.Name, bytes, param.Value.FileName, contentType);
+            //}
 
             if (postBody != null) // http body (model) parameter
                 request.AddParameter("application/json", postBody, ParameterType.RequestBody);
@@ -131,9 +135,18 @@ namespace Dskow.Weather.Client
         public FileParameter ParameterToFile(string name, Stream stream)
         {
             if (stream is FileStream)
-                return FileParameter.Create(name, stream.ReadAsBytes(), Path.GetFileName(((FileStream)stream).Name));
+                using (var memoryStream = new MemoryStream())
+                {
+                    stream.CopyTo(memoryStream);
+                    return FileParameter.Create(name, memoryStream.ToArray(), Path.GetFileName(((FileStream)stream).Name));
+                }
             else
-                return FileParameter.Create(name, stream.ReadAsBytes(), "no_file_name_provided");
+                using (var memoryStream = new MemoryStream())
+                {
+                    stream.CopyTo(memoryStream);
+                    return FileParameter.Create(name, memoryStream.ToArray(), "no_file_name_provided");
+                }
+
         }
 
         /// <summary>

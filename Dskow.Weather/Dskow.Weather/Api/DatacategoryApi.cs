@@ -125,16 +125,16 @@ namespace Dskow.Weather.Api
             String[] authSettings = new String[] { };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse)ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            RestResponse response = (RestResponse)ApiClient.CallApi(path, Method.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException((int)response.StatusCode, "Error calling FindDatacategories: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException((int)response.StatusCode, "Error calling FindDatacategories: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (DatacategoryResult)ApiClient.Deserialize(response.Content, typeof(DatacategoryResult), response.Headers);
+            return (DatacategoryResult)ApiClient.Deserialize(response.Content, typeof(DatacategoryResult), (IList<Parameter>)response.Headers);
         }
-
+        
         /// <summary>
         /// Find datacategory by ID Returns a single datacategory
         /// </summary>
@@ -160,14 +160,14 @@ namespace Dskow.Weather.Api
             String[] authSettings = new String[] { "api_key" };
 
             // make the HTTP request
-            IRestResponse response = (IRestResponse)ApiClient.CallApi(path, Method.GET, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
+            RestResponse response = (RestResponse)ApiClient.CallApi(path, Method.Get, queryParams, postBody, headerParams, formParams, fileParams, authSettings);
 
             if (((int)response.StatusCode) >= 400)
                 throw new ApiException((int)response.StatusCode, "Error calling GetDatacategoryById: " + response.Content, response.Content);
             else if (((int)response.StatusCode) == 0)
                 throw new ApiException((int)response.StatusCode, "Error calling GetDatacategoryById: " + response.ErrorMessage, response.ErrorMessage);
 
-            return (DatacategoryResult)ApiClient.Deserialize(response.Content, typeof(DatacategoryResult), response.Headers);
+            return (DatacategoryResult)ApiClient.Deserialize(response.Content, typeof(DatacategoryResult), (IList<Parameter>)response.Headers);
         }
 
     }
