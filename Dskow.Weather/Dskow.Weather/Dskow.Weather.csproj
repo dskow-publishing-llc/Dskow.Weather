@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.5</Version>
-    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <Version>1.0.6</Version>
     <Authors>David Skowronski</Authors>
     <Company>Dskow Publishing LLC</Company>
     <Description>.Net Standard library of the NOAA Climate Data Online REST api.</Description>
@@ -14,7 +13,6 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>noaa, weather</PackageTags>
     <PackageReleaseNotes>Quick fix to the basePath. Apparently, the http version does not work on all.  it must be https.</PackageReleaseNotes>
-    <PackageLicenseFile>D:\dskow\Source\Repos\dskow-publishing-llc\Dskow.Weather\LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
