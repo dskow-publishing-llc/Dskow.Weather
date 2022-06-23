@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore Dskow.Weather/Dskow.Weather/Dskow.Weather.csproj
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build Dskow.Weather/Dskow.Weather/Dskow.Weather.csproj --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test Dskow.Weather/Dskow.Weather.UnitTestProject/Dskow.Weather.UnitTestProject.csproj --verbosity normal
